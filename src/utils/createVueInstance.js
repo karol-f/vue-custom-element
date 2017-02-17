@@ -24,6 +24,7 @@ export default function createVueInstance(element, Vue, componentDefinition, pro
       rootElement = {
         propsData,
         props: props.camelCase,
+        store: options.store || null,
         computed: {
           reactiveProps() {
             const reactivePropsList = {};
