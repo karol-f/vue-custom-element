@@ -32,6 +32,10 @@ build([
     dest: resolve('dist/vue-custom-element.min.js'),
     format: 'umd',
     env: 'production'
+  },
+  {
+    dest: resolve('dist/vue-custom-element.esm.js'),
+    env: 'development'
   }
 ].map(genConfig))
 
