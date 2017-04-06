@@ -2,6 +2,7 @@ import registerCustomElement from './utils/registerCustomElement';
 import createVueInstance from './utils/createVueInstance';
 import { getProps, convertAttributeValue } from './utils/props';
 import { camelize } from './utils/helpers';
+import isES2015 from './utils/isES2015';
 
 function install(Vue) {
   Vue.customElement = function vueCustomElement(tag, componentDefinition, options = {}) {
@@ -76,7 +77,7 @@ function install(Vue) {
 
 export default install;
 
-if (typeof window !== 'undefined' && window.Vue) {
+if (typeof window !== 'undefined' && window.Vue && !isES2015) {
   window.Vue.use(install);
   if (install.installed) {
     install.installed = false;
