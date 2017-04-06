@@ -36,7 +36,7 @@ If you are using Vue globally, just include `vue-custom-element.js` and it will 
 <script src="path/to/vue-custom-element.js"></script>
 ```
 
-####Optional polyfill
+#### Optional polyfill
 For cross-browser compatibility (IE9+) use Custom Elements polyfill.
 
 ```html
