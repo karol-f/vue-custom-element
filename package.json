@@ -4,6 +4,7 @@
   "description": "Custom Elements for Vue.js",
   "main": "dist/vue-custom-element.js",
   "module": "dist/vue-custom-element.esm.js",
+  "types": "index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/karol-f/vue-custom-element"
