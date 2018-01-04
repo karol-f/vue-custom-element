@@ -1,7 +1,7 @@
 // Type definitions for vue-custom-element 1.2.1
 // Definitions by: Isaac Lyman http://isaaclyman.com
 
-import Vue from "vue"
+import Vue from 'vue'
 import { ComponentOptions, PluginFunction } from 'vue'
 
 declare class VueCustomElement {
@@ -21,9 +21,11 @@ declare namespace VueCustomElement {
     }
 }
 
-declare module "vue" {
-    export function customElement(tag: string, componentDefinition: ComponentOptions<Vue>, options?: VueCustomElement.options): void;
-    export function customElement(tag: string, asyncComponentDefinition: () => Promise<ComponentOptions<Vue>>, options?: VueCustomElement.options): void;
+declare module 'vue/types/vue' {
+  export interface VueConstructor {
+    customElement(tag: string, componentDefinition: ComponentOptions<Vue>, options?: VueCustomElement.options): void;
+    customElement(tag: string, asyncComponentDefinition: () => Promise<ComponentOptions<Vue>>, options?: VueCustomElement.options): void;
+  }
 }
 
 export = VueCustomElement
