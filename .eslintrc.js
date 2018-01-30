@@ -40,7 +40,8 @@ module.exports = {
     "spaced-comment": ["error", "always", { "exceptions": ["/"] }],
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
-    "class-methods-use-this": 0
+    "class-methods-use-this": 0,
+    "import/no-extraneous-dependencies": 0
   },
   'globals': {
     'HTMLElement': true,

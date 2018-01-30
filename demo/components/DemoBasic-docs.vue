@@ -10,7 +10,7 @@
       <el-collapse-item title="Description" name="1">
         <p>Let's add basic component to see if values from HTML attributes are visible inside Vue component. We will also check if numbers and booleans are properly detected.</p>
 
-        <p>After registering <strong>"demo-basic"</strong> tag, you can insert that tag into standard HTML, SPA's, React, Angulat or Vue projects without the hassle and further initialization.</p>
+        <p>After registering <strong>"demo-basic"</strong> tag, you can insert that tag into standard HTML, SPA's, React, Angular or Vue projects without the hassle and further initialization.</p>
 
         <p>Code examples below are written in ES2015 version of JavaScript, but feel free to use ES5.</p>
 

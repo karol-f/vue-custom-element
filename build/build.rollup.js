@@ -58,10 +58,12 @@ function build (builds) {
 function genConfig (opts) {
   const config = {
     input: resolve('src/vue-custom-element.js'),
-    output: opts.dest,
-    format: opts.format,
-    banner,
-    name: 'VueCustomElement',
+    output: {
+      file: opts.dest,
+      name: 'VueCustomElement',
+      format: opts.format,
+      banner
+    },
     plugins: [
       node(),
       cjs(),
@@ -82,15 +84,15 @@ function genConfig (opts) {
 }
 
 function buildEntry (config) {
-  const isProd = /min\.js$/.test(config.output)
+  const isProd = /min\.js$/.test(config.output.file)
   return rollup.rollup(config).then(bundle => {
     bundle.generate(config)
       .then(({ code }) => {
         if (isProd) {
-          var minified = (config.banner ? config.banner + '\n' : '') + uglify.minify(code, {}).code
-          return write(config.output, minified, true)
+          var minified = (config.output.banner ? config.output.banner + '\n' : '') + uglify.minify(code, {}).code
+          return write(config.output.file, minified, true)
         } else {
-          return write(config.output, code)
+          return write(config.output.file, code)
         }
       })
       .catch((e) => console.log(e));

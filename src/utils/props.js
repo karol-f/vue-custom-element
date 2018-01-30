@@ -107,11 +107,9 @@ export function getPropsData(element, componentDefinition, props) {
     const propCamelCase = props.camelCase[index];
     const propValue = element.attributes[name] || element[propCamelCase];
 
-    if (typeof propValue === 'object' && !(propValue instanceof Attr)) {
-      propsData[propCamelCase] = propValue;
-    } else if (propValue instanceof Attr && propValue.value) {
-      propsData[propCamelCase] = convertAttributeValue(propValue.value);
-    }
+    propsData[propCamelCase] = propValue instanceof Attr
+      ? convertAttributeValue(propValue.value)
+      : propValue;
   });
 
   return propsData;
