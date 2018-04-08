@@ -26,6 +26,13 @@
     </div>
 
     <div class="el-form-item">
+      <label class="el-form-item__label">string-prop</label>
+      <div class="el-form-item__content">
+        <el-input v-model="stringProp" size="small"></el-input>
+      </div>
+    </div>
+
+    <div class="el-form-item">
       <label class="el-form-item__label">long-prop-name</label>
       <div class="el-form-item__content">
         <el-input v-model="longPropName" size="small"></el-input>
@@ -50,7 +57,7 @@
 
     <br />
 
-    <demo-basic :prop1="prop1" :prop2="prop2" :prop3="prop3 || 'false'" :long-prop-name="longPropName" :object-prop.prop="objectProp" :array-prop.prop="arrayProp"></demo-basic>
+    <demo-basic :prop1="prop1" :prop2="prop2" :prop3="prop3 || 'false'" :string-prop="stringProp" :long-prop-name="longPropName" :object-prop.prop="objectProp" :array-prop.prop="arrayProp"></demo-basic>
   </div>
 </template>
 
@@ -63,6 +70,7 @@
         prop1: 1,
         prop2: 'example text',
         prop3: true,
+        stringProp: '12',
         longPropName: 'long name',
         objectProp: { foo: 'bar' },
         arrayProp: [1, 2, 3]

@@ -33,14 +33,17 @@
 
 <script>
   export default {
-    props: [
-      'prop1',
-      'prop2',
-      'prop3',
-      'longPropName',
-      'objectProp',
-      'arrayProp'
-    ],
+    props: {
+      prop1: {},
+      prop2: {},
+      prop3: {},
+      stringProp: {
+        type: String
+      },
+      longPropName: {},
+      objectProp: {},
+      arrayProp: {}
+    },
     data() {
       return {
         message: 'Hello Vue-custom-element!'
@@ -60,6 +63,10 @@
           prop: 'prop3',
           value: JSON.stringify(this.prop3),
           type: typeof this.prop3
+        }, {
+          prop: 'stringProp',
+          value: this.stringProp,
+          type: typeof this.stringProp
         }, {
           prop: 'long-prop-name',
           value: JSON.stringify(this.longPropName),

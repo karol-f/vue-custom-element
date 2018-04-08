@@ -3,16 +3,20 @@ import { camelize, hyphenate } from './helpers';
 /**
  * Number and Boolean props are treated as strings
  * We should convert it so props will behave as intended
+ * Conversion can be overwritted by prop validation (https://vuejs.org/v2/guide/components-props.html#Prop-Validation)
  * @param value
+ * @param overrideType
  * @returns {*}
  */
-export function convertAttributeValue(value) {
+export function convertAttributeValue(value, overrideType) {
   let propsValue = value;
   const isBoolean = ['true', 'false'].indexOf(value) > -1;
   const valueParsed = parseFloat(propsValue, 10);
   const isNumber = !isNaN(valueParsed) && isFinite(propsValue) && !propsValue.match(/^0+[^.]\d*$/g);
 
-  if (isBoolean) {
+  if (overrideType) {
+    propsValue = overrideType(value);
+  } else if (isBoolean) {
     propsValue = propsValue === 'true';
   } else if (isNumber) {
     propsValue = valueParsed;
@@ -69,6 +73,20 @@ export function getProps(componentDefinition = {}) {
 }
 
 /**
+ * Maps typeof operator back to the associated type
+ * @param type
+ */
+export function mapToType(type) {
+  switch (type.toLowerCase()) {
+    case 'boolean': return Boolean;
+    case 'number': return Number;
+    case 'string': return String;
+    case 'symbol': return Symbol;
+    default: return null;
+  }
+}
+
+/**
  * If we get DOM node of element we could use it like this:
  * document.querySelector('widget-vue1').prop1 <-- get prop
  * document.querySelector('widget-vue1').prop1 = 'new Value' <-- set prop
@@ -87,7 +105,8 @@ export function reactiveProps(element, props) {
           const propName = props.camelCase[index];
           this.__vue_custom_element__[propName] = value;
         } else {
-          this.setAttribute(props.hyphenate[index], convertAttributeValue(value));
+          const type = mapToType(typeof props.hyphenate[index]);
+          this.setAttribute(props.hyphenate[index], convertAttributeValue(value, type));
         }
       }
     });
@@ -107,8 +126,16 @@ export function getPropsData(element, componentDefinition, props) {
     const propCamelCase = props.camelCase[index];
     const propValue = element.attributes[name] || element[propCamelCase];
 
+    let type = null;
+    if (componentDefinition.props &&
+        componentDefinition.props[propCamelCase] &&
+        componentDefinition.props[propCamelCase].type
+    ) {
+      type = componentDefinition.props[propCamelCase].type;
+    }
+
     propsData[propCamelCase] = propValue instanceof Attr
-      ? convertAttributeValue(propValue.value)
+      ? convertAttributeValue(propValue.value, type)
       : propValue;
   });
 
