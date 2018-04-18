@@ -40,6 +40,12 @@
       stringProp: {
         type: String
       },
+      booleanProp: {
+        type: Boolean
+      },
+      numberProp: {
+        type: Number
+      },
       longPropName: {},
       objectProp: {},
       arrayProp: {}
@@ -67,6 +73,14 @@
           prop: 'stringProp (type: String)',
           value: this.stringProp,
           type: typeof this.stringProp
+        }, {
+          prop: 'booleanProp (type: Boolean)',
+          value: this.booleanProp,
+          type: typeof this.booleanProp
+        }, {
+          prop: 'numberProp (type: Number)',
+          value: this.numberProp,
+          type: typeof this.numberProp
         }, {
           prop: 'long-prop-name',
           value: JSON.stringify(this.longPropName),

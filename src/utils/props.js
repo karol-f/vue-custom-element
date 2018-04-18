@@ -14,9 +14,9 @@ export function convertAttributeValue(value, overrideType) {
   const valueParsed = parseFloat(propsValue, 10);
   const isNumber = !isNaN(valueParsed) && isFinite(propsValue) && !propsValue.match(/^0+[^.]\d*$/g);
 
-  if (overrideType) {
+  if (overrideType && overrideType !== Boolean) {
     propsValue = overrideType(value);
-  } else if (isBoolean) {
+  } else if (isBoolean || overrideType === Boolean) {
     propsValue = propsValue === 'true';
   } else if (isNumber) {
     propsValue = valueParsed;
