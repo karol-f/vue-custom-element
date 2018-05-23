@@ -17,6 +17,24 @@ export function getAttributes(children) {
 }
 
 /**
+ * Get childNodes of an element
+ * @param {HTMLElement} element
+ * @returns {NodeList}
+ */
+export function getChildNodes(element) {
+  if (element.childNodes.length > 0) return element.childNodes;
+  if (element.content && element.content.childNodes && element.content.childNodes.length > 0) {
+    return element.content.childNodes;
+  }
+
+  const placeholder = document.createElement('div');
+
+  placeholder.innerHTML = element.innerHTML;
+
+  return placeholder.childNodes;
+}
+
+/**
  * Helper utility returning slots for render function
  * @param children
  * @param createElement
