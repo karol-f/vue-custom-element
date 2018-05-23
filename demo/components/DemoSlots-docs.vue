@@ -4,7 +4,11 @@
 
     <div class="demo-card">
       <demo-slots>
-        <span vue-slot="header">Heder slot passed from outside</span>
+        <template slot id="header">
+          <h3>Template Header Slot</h3>
+
+          With an h3 header and a basic text node
+        </template>
         <span>Default slot</span>
         <span vue-slot="footer">Footer slot passed from outside</span>
       </demo-slots>
