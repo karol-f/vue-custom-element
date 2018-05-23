@@ -52,7 +52,7 @@ export function getSlots(children = [], createElement) {
       const elementOptions = {
         attrs: attributes,
         domProps: {
-          innerHTML: child.innerHTML
+          innerHTML: (child.innerHTML === '' ? child.innerText : child.innerHTML)
         }
       };
 
