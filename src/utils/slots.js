@@ -61,7 +61,28 @@ export function getSlots(children = [], createElement) {
         attributes.slot = undefined;
       }
 
-      slots.push(createElement(child.tagName, elementOptions));
+      if (child.tagName === 'TEMPLATE') {
+        const templateChildren = getChildNodes(child);
+
+        const vueTemplateChildren = toArray(templateChildren).map((ch) => {
+          // children passed to create element can be a string
+          // https://vuejs.org/v2/guide/render-function#createElement-Arguments
+          if (ch.nodeName === '#text') return ch.nodeValue;
+
+          return createElement(ch.tagName, {
+            attrs: getAttributes(ch),
+            domProps: {
+              innerHTML: ch.innerHTML
+            }
+          });
+        });
+
+        elementOptions.slot = child.id;
+
+        slots.push(createElement('template', elementOptions, vueTemplateChildren));
+      } else {
+        slots.push(createElement(child.tagName, elementOptions));
+      }
     }
   });
 
