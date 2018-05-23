@@ -48,7 +48,7 @@
 
         <p>
           When passing custom elements inside of slots, you may get errors that warn about
-          <code>Unknown custom element</code>. There ares two ways around this.
+          <code>Unknown custom element</code>. There are two ways around this.
 
 
           <ol>
@@ -86,9 +86,6 @@ Vue.customElement('custom-parent', CustomParent)
               </p>
             </li>
           </ol>
-
-          that depending on how you initialize you content, you may need to either
-          add an ignore
         </p>
       </el-collapse-item>
       <el-collapse-item title="Custom Element HTML" name="2">
