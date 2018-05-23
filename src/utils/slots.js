@@ -35,6 +35,34 @@ export function getChildNodes(element) {
 }
 
 /**
+ * Get Vue element representing a template for use with slots
+ * @param {Function} createVueElement - createElement function from vm
+ * @param {HTMLElement} element - template element
+ * @param {Object} elementOptions
+ * @returns {VNode}
+ */
+export function templateElement(createVueElement, element, elementOptions) {
+  const templateChildren = getChildNodes(element);
+
+  const vueTemplateChildren = toArray(templateChildren).map((child) => {
+    // children passed to create element can be a string
+    // https://vuejs.org/v2/guide/render-function#createElement-Arguments
+    if (child.nodeName === '#text') return child.nodeValue;
+
+    return createVueElement(child.tagName, {
+      attrs: getAttributes(child),
+      domProps: {
+        innerHTML: child.innerHTML
+      }
+    });
+  });
+
+  elementOptions.slot = element.id;
+
+  return createVueElement('template', elementOptions, vueTemplateChildren);
+}
+
+/**
  * Helper utility returning slots for render function
  * @param children
  * @param createElement
@@ -61,28 +89,11 @@ export function getSlots(children = [], createElement) {
         attributes.slot = undefined;
       }
 
-      if (child.tagName === 'TEMPLATE') {
-        const templateChildren = getChildNodes(child);
+      const slotVueElement = (child.tagName === 'TEMPLATE') ?
+        templateElement(createElement, child, elementOptions) :
+        createElement(child.tagName, elementOptions);
 
-        const vueTemplateChildren = toArray(templateChildren).map((ch) => {
-          // children passed to create element can be a string
-          // https://vuejs.org/v2/guide/render-function#createElement-Arguments
-          if (ch.nodeName === '#text') return ch.nodeValue;
-
-          return createElement(ch.tagName, {
-            attrs: getAttributes(ch),
-            domProps: {
-              innerHTML: ch.innerHTML
-            }
-          });
-        });
-
-        elementOptions.slot = child.id;
-
-        slots.push(createElement('template', elementOptions, vueTemplateChildren));
-      } else {
-        slots.push(createElement(child.tagName, elementOptions));
-      }
+      slots.push(slotVueElement);
     }
   });
 
