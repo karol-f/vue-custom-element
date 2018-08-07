@@ -1,5 +1,6 @@
 require('babel-register')
 var config = require('../../config')
+var seleniumJar = require('shelljs').find('node_modules/selenium-server/lib/runner').filter(function(file){ return file.match(/selenium-server-standalone-.*\.jar$/); });
 
 // http://nightwatchjs.org/guide#settings-file
 module.exports = {
@@ -8,7 +9,7 @@ module.exports = {
 
   selenium: {
     start_process: true,
-    server_path: 'node_modules/selenium-server/lib/runner/selenium-server-standalone-3.3.0.jar',
+    server_path: seleniumJar,
     host: '127.0.0.1',
     port: 4444,
     cli_args: {

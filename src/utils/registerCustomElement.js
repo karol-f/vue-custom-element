@@ -22,6 +22,11 @@ export default function registerCustomElement(tag, options = {}) {
     typeof options.attributeChangedCallback === 'function' && options.attributeChangedCallback.call(this, name, oldValue, value);
   }
 
+  function define(_tag, _CustomElement) {
+    const existingCustomElement = customElements.get(_tag);
+    return typeof existingCustomElement !== 'undefined' ? existingCustomElement : customElements.define(_tag, _CustomElement);
+  }
+
   if (isES2015) {
     // ES2015 detected. We will use "class" based Custom Elements V1 specification.
     // If it's natively supported it will run without polyfill
@@ -45,7 +50,7 @@ export default function registerCustomElement(tag, options = {}) {
     CustomElement.prototype.disconnectedCallback = disconnectedCallback;
     CustomElement.prototype.attributeChangedCallback = attributeChangedCallback;
 
-    customElements.define(tag, CustomElement);
+    define(tag, CustomElement);
     return CustomElement; // eslint-disable-line consistent-return
   } else { // eslint-disable-line no-else-return
     // not ES2015. We will use polyfill supported version of registering Custom Elements
@@ -73,7 +78,7 @@ export default function registerCustomElement(tag, options = {}) {
     CustomElement.prototype.disconnectedCallback = disconnectedCallback;
     CustomElement.prototype.attributeChangedCallback = attributeChangedCallback;
 
-    customElements.define(tag, CustomElement);
+    define(tag, CustomElement);
     return CustomElement; // eslint-disable-line consistent-return
   }
 }
