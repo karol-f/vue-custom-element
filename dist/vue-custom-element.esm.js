@@ -33,13 +33,13 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-function _CustomElement() {
+function _CustomElement2() {
   return Reflect.construct(HTMLElement, [], this.__proto__.constructor);
 }
 
 
-Object.setPrototypeOf(_CustomElement.prototype, HTMLElement.prototype);
-Object.setPrototypeOf(_CustomElement, HTMLElement);
+Object.setPrototypeOf(_CustomElement2.prototype, HTMLElement.prototype);
+Object.setPrototypeOf(_CustomElement2, HTMLElement);
 function registerCustomElement(tag) {
   var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
@@ -65,9 +65,14 @@ function registerCustomElement(tag) {
     typeof options.attributeChangedCallback === 'function' && options.attributeChangedCallback.call(this, name, oldValue, value);
   }
 
+  function define(_tag, _CustomElement) {
+    var existingCustomElement = customElements.get(_tag);
+    return typeof existingCustomElement !== 'undefined' ? existingCustomElement : customElements.define(_tag, _CustomElement);
+  }
+
   if (isES2015$1) {
-    var CustomElement = function (_CustomElement2) {
-      _inherits(CustomElement, _CustomElement2);
+    var CustomElement = function (_CustomElement3) {
+      _inherits(CustomElement, _CustomElement3);
 
       function CustomElement(self) {
         var _ret;
@@ -90,38 +95,38 @@ function registerCustomElement(tag) {
       }]);
 
       return CustomElement;
-    }(_CustomElement);
+    }(_CustomElement2);
 
     CustomElement.prototype.connectedCallback = connectedCallback;
     CustomElement.prototype.disconnectedCallback = disconnectedCallback;
     CustomElement.prototype.attributeChangedCallback = attributeChangedCallback;
 
-    customElements.define(tag, CustomElement);
+    define(tag, CustomElement);
     return CustomElement;
   } else {
-    var _CustomElement3 = function _CustomElement3(self) {
+    var _CustomElement4 = function _CustomElement4(self) {
       var me = self ? HTMLElement.call(self) : this;
 
       constructorCallback.call(me);
       return me;
     };
 
-    _CustomElement3.observedAttributes = options.observedAttributes || [];
+    _CustomElement4.observedAttributes = options.observedAttributes || [];
 
-    _CustomElement3.prototype = Object.create(HTMLElement.prototype, {
+    _CustomElement4.prototype = Object.create(HTMLElement.prototype, {
       constructor: {
         configurable: true,
         writable: true,
-        value: _CustomElement3
+        value: _CustomElement4
       }
     });
 
-    _CustomElement3.prototype.connectedCallback = connectedCallback;
-    _CustomElement3.prototype.disconnectedCallback = disconnectedCallback;
-    _CustomElement3.prototype.attributeChangedCallback = attributeChangedCallback;
+    _CustomElement4.prototype.connectedCallback = connectedCallback;
+    _CustomElement4.prototype.disconnectedCallback = disconnectedCallback;
+    _CustomElement4.prototype.attributeChangedCallback = attributeChangedCallback;
 
-    customElements.define(tag, _CustomElement3);
-    return _CustomElement3;
+    define(tag, _CustomElement4);
+    return _CustomElement4;
   }
 }
 
