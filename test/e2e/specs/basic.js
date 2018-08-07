@@ -2,7 +2,7 @@
 // http://nightwatchjs.org/guide#usage
 
 module.exports = {
-  'basic': function test(browser) {
+  basic: function test(browser) {
     // automatically uses dev Server port from /config.index.js
     // default: http://localhost:8080
     // see nightwatch.conf.js
@@ -12,5 +12,5 @@ module.exports = {
       .url(`${devServer}/#/demos/basic`)
       .waitForElementVisible('demo-basic', 5000)
       .end();
-  },
+  }
 };
