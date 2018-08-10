@@ -222,7 +222,7 @@ console.info(document.querySelector('widget-vue').getVueInstance())
 
 ## Contribute
 
-#### Developement
+#### Development
 ```
 npm install
 npm run dev:demo
