@@ -7,6 +7,8 @@ export default function registerCustomElement(tag, options = {}) {
   function constructorCallback() {
     if (options.shadow === true && HTMLElement.prototype.attachShadow) {
       this.attachShadow({ mode: 'open' });
+    } else if (typeof options.shadow === 'object' && HTMLElement.prototype.attachShadow) {
+      this.attachShadow(options.shadow);
     }
     typeof options.constructorCallback === 'function' && options.constructorCallback.call(this);
   }
