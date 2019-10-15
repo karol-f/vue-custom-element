@@ -99,7 +99,10 @@ export default function createVueInstance(element, Vue, componentDefinition, pro
     // Define the Vue constructor to manage the element
     element.__vue_custom_element__ = new Vue(rootElement);
     element.__vue_custom_element_props__ = props;
-    element.getVueInstance = () => element.__vue_custom_element__.$children[0];
+    element.getVueInstance = () => {
+      const vueInstance = element.__vue_custom_element__;
+      return vueInstance.$children.length ? vueInstance.$children[0] : vueInstance;
+    };
 
     if (options.shadow && options.shadowCss && element.shadowRoot) {
       const style = document.createElement('style');
