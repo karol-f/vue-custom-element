@@ -14,6 +14,7 @@ declare namespace VueCustomElement {
         connectedCallback?: () => void;
         disconnectedCallback?: () => void;
         attributeChangedCallback?: (name: string, oldValue: any, value: any) => void;
+        beforeCreateVueInstance?: (rootElement: ComponentOptions<Vue>) => ComponentOptions<Vue>;
         destroyTimeout?: number;
         props?: ComponentOptions<Vue>['props'];
         shadow?: boolean;
@@ -27,6 +28,6 @@ declare module 'vue/types/vue' {
         customElement(tag: string, singleFileComponent: VueConstructor<Vue>, options?: VueCustomElement.options): void;
         customElement(tag: string, asyncComponentDefinition: () => Promise<ComponentOptions<Vue>>, options?: VueCustomElement.options): void;
     }
-}
 
+}
 export default VueCustomElement
