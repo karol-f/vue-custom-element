@@ -15,6 +15,7 @@ declare namespace VueCustomElement {
         disconnectedCallback?: () => void;
         attributeChangedCallback?: (name: string, oldValue: any, value: any) => void;
         beforeCreateVueInstance?: (rootElement: ComponentOptions<Vue>) => ComponentOptions<Vue>;
+        vueInstanceCreatedCallback?: () => void;
         destroyTimeout?: number;
         props?: ComponentOptions<Vue>['props'];
         shadow?: boolean;
