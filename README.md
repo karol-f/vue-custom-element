@@ -30,6 +30,14 @@ import vueCustomElement from 'vue-custom-element'
 Vue.use(vueCustomElement);
 ```
 
+To build your web-component using vue-cli, you have to use the following command:
+
+```bash
+vue-cli-service build --target lib --name your-component-name src/main.js
+```
+
+Note: the command ```vue-cli-service build --target wc``` does not work, since it using vue's own vue-web-component-wrapper.
+
 #### Direct include
 
 If you are using Vue globally, just include `vue-custom-element.js` and it will automatically install the `Vue.customElement` method.
