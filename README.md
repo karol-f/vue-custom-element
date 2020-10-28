@@ -2,13 +2,13 @@
 
 ![Vue-custom-element](demo/assets/images/vue-custom-element-logo-text.png)
 
-## Table of content
+## Table of contents
 
 - [Demo](#demo)
 - [Installation](#installation)
 - [Description](#description)
 - [Example](#example)
-- [Browsers support](#browsers-support)
+- [Browsers support](#browser-support)
 - [Options](#options)
 - [How does it work?](#how-does-it-work)
 - [Testing](#testing)
