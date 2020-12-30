@@ -86,10 +86,11 @@ export default function createVueInstance(element, Vue, componentDefinition, pro
     if (options.shadow && element.shadowRoot) {
       element.shadowRoot.innerHTML = elementInnerHtml;
       rootElement.el = element.shadowRoot.children[0];
-      rootElement.shadowRoot = element.shadowRoot;
+      rootElement.shadowRoot = element.shadowRoot; //this line allows `vue-style-loader` with `shadowMode` enabled inject styles into shadow-root
     } else {
       element.innerHTML = elementInnerHtml;
       rootElement.el = element.children[0];
+      rootElement.shadowRoot = document.head; //fallback to head to append styles, if shadowDom is not supported ot disabled
     }
 
     reactiveProps(element, props);
