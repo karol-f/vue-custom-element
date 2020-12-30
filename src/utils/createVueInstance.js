@@ -86,6 +86,7 @@ export default function createVueInstance(element, Vue, componentDefinition, pro
     if (options.shadow && element.shadowRoot) {
       element.shadowRoot.innerHTML = elementInnerHtml;
       rootElement.el = element.shadowRoot.children[0];
+      rootElement.shadowRoot = element.shadowRoot;
     } else {
       element.innerHTML = elementInnerHtml;
       rootElement.el = element.children[0];
