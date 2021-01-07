@@ -8,6 +8,7 @@
 - [Installation](#installation)
 - [Description](#description)
 - [Example](#example)
+- [ShadowDOM Example](#shadowdom-example)
 - [Browsers support](#browser-support)
 - [Options](#options)
 - [How does it work?](#how-does-it-work)
@@ -123,6 +124,100 @@ document.querySelector('widget-vue').prop2 = 'another string' // set prop value
 
 You can also change `<widget-vue>` HTML attributes and changes will be instantly reflected.
 
+
+## ShadowDOM Example
+By default, `vue-custom-element` does not mount underneath a `ShadowDOM`. While this is easier to develop and debug, CSS stylings for the parent can contaminate the component, and stylings for the component can contaminate the parent. This is most prevalent when using prebuilt UI libraries which assume the component is the only content on the page (i.e. Vuetify). A `ShadowDOM` prevents this contamination by isolating the components and stylings within an HTML document fragment.
+
+In these situations, components should be mounted underneath a shadowDOM using the option
+``` js
+Vue.customElement('widget-vue', CustomWidget, {
+  shadow: true,
+  beforeCreateVueInstance(root) {
+    const rootNode = root.el.getRootNode();
+
+    if (rootNode instanceof ShadowRoot) {
+      root.shadowRoot = rootNode;
+    } else {
+      root.shadowRoot = document.head;
+    }
+    return root;
+  },
+);
+```
+
+The additional `beforeCreateVueInstance` is only required if your Vue component has bundled stylings and you are using `css-modules` with Webpack to bundle (which is most use cases). In addition, if you are using `vue-loader` and `vue-style-loader` plugins with Webpack, you will need to pass the `shadowMode: true` option to the plugins also. This is required so the plugins know they that CSS styles should be attached under the `shadowDOM` and not in the `document.head` (which is the default behavior).
+
+**webpack.config.js example for scss stylings**
+``` js
+{
+    test: /\.vue$/,
+    use: [
+        {
+            loader: 'vue-loader',
+            options: {
+            	shadowMode: true
+            }
+        }
+    ]
+},
+{
+    test: /\.scss$/, //as example I used scss
+    use: [
+        {
+            loader: 'vue-style-loader',
+            options: {
+                shadowMode: true
+            }
+        }
+    ]
+}
+```
+
+**vue.config.js for Vue CLI 3**
+``` js
+function enableShadowCss(config) {
+  const configs = [
+    config.module.rule('vue').use('vue-loader'),
+  ];
+  // based on common rules returned by `vue inspect`
+  const ruleSets = ['css', 'postcss', 'scss', 'sass', 'less', 'stylus'];
+  const ruleNames = ['vue-modules', 'vue', 'normal-modules', 'normal'];
+
+  ruleSets.forEach((ruleSet) => {
+    if (config.module.rules.store.has(ruleSet)) {
+      ruleNames.forEach((rName) => {
+        if (config.module.rule(ruleSet).oneOfs.store.has(rName)) {
+          if (config.module.rule(ruleSet).oneOf(rName).uses.store.has('vue-style-loader')) {
+            configs.push(config.module.rule(ruleSet).oneOf(rName).use('vue-style-loader'));
+          }
+        }
+      });
+    }
+  });
+  if (!process.env.BUILD_MODE) {
+    process.env.BUILD_MODE = config.store.get('mode');
+  }
+  configs.forEach((c) => c.tap((options) => {
+    options.shadowMode = true;
+    return options;
+  }));
+}
+
+module.exports = {
+  chainWebpack:
+    (config) => {
+      enableShadowCss(config);
+    },
+  css: {
+    sourceMap: true,
+    extract: false,
+  },
+};
+```
+
+_Note: for stylings to work, CSS must be bundled in JS and injected at runtime. Otherwise you will need to manually link the CSS under the shadowDOM inside your component (which is obviously an anti-pattern)._
+
+For additional ShadowDom examples see: https://github.com/bryanvaz/vue-custom-element-shadow-examples
 
 ## Browser support
 
