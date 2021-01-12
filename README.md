@@ -142,7 +142,7 @@ Vue.customElement('widget-vue', CustomWidget, {
     }
     return root;
   },
-);
+});
 ```
 
 The additional `beforeCreateVueInstance` is only required if your Vue component has bundled stylings and you are using `css-modules` with Webpack to bundle (which is most use cases). In addition, if you are using `vue-loader` and `vue-style-loader` plugins with Webpack, you will need to pass the `shadowMode: true` option to the plugins also. This is required so the plugins know they that CSS styles should be attached under the `shadowDOM` and not in the `document.head` (which is the default behavior).
