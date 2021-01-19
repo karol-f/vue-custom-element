@@ -27,13 +27,13 @@ function install(Vue) {
           if (isAsyncComponentPromise) {
             asyncComponentPromise.then((lazyComponent) => {
               const lazyProps = getProps(lazyComponent);
-              createVueInstance(this, Vue, lazyComponent, lazyProps, options).then((created) => {
-                created && typeof options.vueInstanceCreatedCallback === 'function' && options.vueInstanceCreatedCallback.call(this);
+              createVueInstance(this, Vue, lazyComponent, lazyProps, options).then(() => {
+                typeof options.vueInstanceCreatedCallback === 'function' && options.vueInstanceCreatedCallback.call(this);
               });
             });
           } else {
-            createVueInstance(this, Vue, componentDefinition, props, options).then((created) => {
-              created && typeof options.vueInstanceCreatedCallback === 'function' && options.vueInstanceCreatedCallback.call(this);
+            createVueInstance(this, Vue, componentDefinition, props, options).then(() => {
+              typeof options.vueInstanceCreatedCallback === 'function' && options.vueInstanceCreatedCallback.call(this);
             });
           }
         }
