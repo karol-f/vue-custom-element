@@ -14,7 +14,7 @@ import { customEmit } from './customEvent';
  */
 export default function createVueInstance(element, Vue, componentDefinition, props, options) {
   if (element.__vue_custom_element__) {
-    return Promise.resolve(false);
+    return Promise.resolve(element);
   }
   const ComponentDefinition = Vue.util.extend({}, componentDefinition);
   const propsData = getPropsData(element, ComponentDefinition, props);
@@ -120,6 +120,6 @@ export default function createVueInstance(element, Vue, componentDefinition, pro
     element.removeAttribute('vce-cloak');
     element.setAttribute('vce-ready', '');
     customEmit(element, 'vce-ready');
-    return true;
+    return element;
   });
 }
