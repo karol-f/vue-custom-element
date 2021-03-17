@@ -1,4 +1,4 @@
-import { getPropsData, reactiveProps } from './props';
+import { getPropsData, reactiveProps, syncProps } from './props';
 import { getSlots } from './slots';
 import { customEmit } from './customEvent';
 
@@ -103,6 +103,7 @@ export default function createVueInstance(element, Vue, componentDefinition, pro
   }
 
   reactiveProps(element, props);
+  syncProps(element, props, options);
 
   if (typeof options.beforeCreateVueInstance === 'function') {
     rootElement = options.beforeCreateVueInstance(rootElement) || rootElement;
