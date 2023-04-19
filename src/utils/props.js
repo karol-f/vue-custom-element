@@ -108,6 +108,35 @@ export function reactiveProps(element, props) {
 }
 
 /**
+ * When attribute changes we should update Vue instance
+ * @param element
+ * @param props
+ * @param options
+ */
+export function syncProps(element, props, options) {
+  const observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+      const attributeName = mutation.attributeName;
+      const propIndex = props.hyphenate.indexOf(attributeName);
+      if (mutation.type === "attributes" && propIndex !== -1) {
+        const oldValue = mutation.oldValue;
+        const value = element.hasAttribute(attributeName) ? element.getAttribute(attributeName) : undefined;
+        if (element.__vue_custom_element__ && typeof value !== 'undefined') {
+          const propNameCamelCase = props.camelCase[propIndex];
+          typeof options.attributeChangedCallback === 'function' && options.attributeChangedCallback.call(element, propNameCamelCase, oldValue, value);
+          const type = props.types[propNameCamelCase];
+          element.__vue_custom_element__[propNameCamelCase] = convertAttributeValue(value, type);
+        }
+      }
+    });
+  });
+  observer.observe(element, {
+    attributes: true,
+    attributeOldValue: true
+  })
+}
+
+/**
  * In root Vue instance we should initialize props as 'propsData'.
  * @param instanceOptions
  * @param componentDefinition

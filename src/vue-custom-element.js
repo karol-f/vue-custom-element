@@ -1,7 +1,6 @@
 import registerCustomElement from './utils/registerCustomElement';
 import createVueInstance from './utils/createVueInstance';
-import { getProps, convertAttributeValue } from './utils/props';
-import { camelize } from './utils/helpers';
+import { getProps } from './utils/props';
 
 function install(Vue) {
   Vue.customElement = function vueCustomElement(tag, componentDefinition, options = {}) {
@@ -59,23 +58,6 @@ function install(Vue) {
           }
         }, options.destroyTimeout || 3000);
       },
-
-      /**
-       * When attribute changes we should update Vue instance
-       * @param name
-       * @param oldVal
-       * @param value
-       */
-      attributeChangedCallback(name, oldValue, value) {
-        if (this.__vue_custom_element__ && typeof value !== 'undefined') {
-          const nameCamelCase = camelize(name);
-          typeof options.attributeChangedCallback === 'function' && options.attributeChangedCallback.call(this, name, oldValue, value);
-          const type = this.__vue_custom_element_props__.types[nameCamelCase];
-          this.__vue_custom_element__[nameCamelCase] = convertAttributeValue(value, type);
-        }
-      },
-
-      observedAttributes: props.hyphenate,
 
       shadow: !!options.shadow && !!HTMLElement.prototype.attachShadow
     });
