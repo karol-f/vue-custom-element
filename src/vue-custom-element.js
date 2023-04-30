@@ -77,7 +77,7 @@ function install(Vue) {
 
       observedAttributes: props.hyphenate,
 
-      shadow: !!options.shadow && !!HTMLElement.prototype.attachShadow
+      shadow: typeof options.shadow === 'object' ? options.shadow : !!options.shadow && !!HTMLElement.prototype.attachShadow,
     });
 
     return CustomElement;
